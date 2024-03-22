@@ -1,0 +1,25 @@
+{
+  "name": "financial_api",
+  "version": "1.0.0",
+  "description": "server to organize and access all financial APIs we are using",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoloStarkes/Chatbot-Extension-Research.git"
+  },
+  "author": "Sidy Thiam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SoloStarkes/Chatbot-Extension-Research/issues"
+  },
+  "homepage": "https://github.com/SoloStarkes/Chatbot-Extension-Research#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.4.5",
+    "openai": "^4.29.2",
+    "react": "^18.2.0"
+  }
+}
