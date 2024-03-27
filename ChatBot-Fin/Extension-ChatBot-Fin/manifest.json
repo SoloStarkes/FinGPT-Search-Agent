@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "ChatRPI",
+  "version": "0.00.0",
+  "description": "A demo to initialize the extension for ChatRPI. We will use this to test the extension and see if it works. We will be adding more features as we go.",
+  "icons": {
+    "16": "Icons/16x16_icon.png",
+    "32": "Icons/32x32_icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.rpi.edu/*"],
+      "js": ["content.js"]
+    }
+  ], 
+  "permissions": [
+    "tabs"
+  ]
+
+}
