@@ -25,7 +25,7 @@ def ai_reponse(user_input):
 
 def get_stock_info(stock_symbol):
     # Construct the URL for Yahoo Finance
-    url = f"https://finance.yahoo.com/quote/%7Binput%7D"
+    url = f"https://finance.yahoo.com/quote/{stock_symbol}"
 
 #Send a GET request to the URL
     response = requests.get(url)
@@ -40,12 +40,10 @@ def get_stock_info(stock_symbol):
     else:
         return "Failed to retrieve data. Check your internet connection or try again later."
 
-#Test the function
-stock_symbol = input("Enter stock: ")
-
-depth = False 
-
-
-depth_s = input("Do you want more in depth information on this based on financial institutions? Enter 'Y' for yes or anything else for no")
-if (depth_s == 'Y'):
-    get_stock_info(stock_symbol)
+if __name__ == "__main__":
+    #Test the function
+    stock_symbol = input("Enter stock: ").upper()
+    depth = False 
+    depth_s = input("Do you want more in depth information on this based on financial institutions? Enter 'Y' for yes or anything else for no ")
+    if (depth_s.lower() == 'y'):
+        get_stock_info(stock_symbol)
