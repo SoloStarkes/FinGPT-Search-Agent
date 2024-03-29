@@ -5,3 +5,4 @@ pip install:
     bs4
     requests
     openai==0.28
+    google
