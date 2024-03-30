@@ -3,6 +3,10 @@ from django.http import JsonResponse
 import json
 import random  # Import 'random' for 'randint'
 import datascraper.datascraper as ds  # Import 'datascraper'
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
+
 
 message_list=[
     {"role": "system", "content": "You are a helpful assistant."},
@@ -14,6 +18,7 @@ def Get_A_Number(request):
     return JsonResponse({'resp': int_response})
 
 # View to handle chat responses
+
 def chat_response(request):
     # Assuming 'create_response' returns a string
     question = request.GET.get('question', '')
@@ -23,3 +28,18 @@ def chat_response(request):
     message_response = ds.create_response(question, message_list)
     print(message_list)
     return JsonResponse({'resp': message_response})
+
+# View to handle appending the site's text to the message list initiliatlly 
+@csrf_exempt
+def add_webtext(request):
+
+    textContent = request.GET.get('textContent', '')
+    
+    #text = ds.data_scrape(weburl)
+    #print(weburl)
+    print(textContent)
+
+    message_list.append( {"role": "system", "content": textContent})
+    return JsonResponse({'resp': 'Text added successfully'})  # Return a JsonResponse
+
+    #return JsonResponse({'resp1': text})

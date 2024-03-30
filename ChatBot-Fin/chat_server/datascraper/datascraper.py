@@ -15,6 +15,7 @@ api_key = os.getenv("API_KEY7")
 
     
 def data_scrape(url, timeout=2):
+
     try:
         start_time = time.time()
         response = requests.get(url, timeout=timeout)
@@ -27,6 +28,7 @@ def data_scrape(url, timeout=2):
                 print("Request took more than 2 seconds. Skipping...")
                 return -1
             soup = BeautifulSoup(response.text, 'html.parser')
+
             return soup.text
         else:
             print('Failed to retrieve the page. Status code:', response.status_code)
@@ -99,6 +101,11 @@ def create_response(user_input, message_list):
     return completion.choices[0].message.content
 
 
+
+# def input_webtext(weburl):
+#     text = data_scrape(weburl)
+#     message_list.append( {"role": "system", "content": text})
+#     print(text)
 
 if __name__ == "__main__":
 

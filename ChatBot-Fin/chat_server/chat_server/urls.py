@@ -22,5 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('get_number', views.Get_A_Number, name='get_number'),
     path('get_chat_response/', views.chat_response, name='get_chat_response'),
+    path('input_webtext/', views.add_webtext, name='input_webtext')
+
 
 ]
