@@ -1,4 +1,47 @@
+const currentUrl = window.location.href.toString();
+
+console.log(currentUrl.toString());
+
+const textContent = document.body.innerText;
+const encodedContent = encodeURIComponent(textContent);
+
+fetch(`http://127.0.0.1:8000/input_webtext/?textContent=${encodedContent}`, { method: "POST" })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+    });
+
+
+  
+function clear() {
+  var response = document.getElementById('respons');
+  response.innerHTML = "";
+  fetch(`http://127.0.0.1:8000/clear_messages/`, { method: "POST" })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+    });
+
+
+}
 function get_chat_response(question) {
+
   
   // Define the 'response' element 
   var response = document.getElementById('respons');
@@ -10,30 +53,31 @@ function get_chat_response(question) {
 
   // Create a 'span' element for the loading message
   var loading = document.createElement('span');
-  loading.innerText = "ChatRPI: Loading...";
+  loading.innerText = "FinGPT: Loading...";
   document.getElementById("respons").appendChild(loading);
 
   // Create the 'request' object
   var request = {"question": question};
   document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight; 
-  // Make a fetch request
+
+
+  
+
+
   fetch(`http://127.0.0.1:8000/get_chat_response/?question=${question}`, {method: "GET"})
     .then(response => response.json())
     .then(data => {
       console.log(data["resp"]);
-      const currentUrl = window.location.href;
-
 
       // Log the URL to the console
-      console.log(currentUrl);
-      console.log(getTextFromUrl(currentUrl));
+      
 
       // Remove the loading message
       response.removeChild(loading);
       
       // Append the response to the 'response' element
       resptext = document.createElement('span');
-      resptext.innerText = "ChatRPI: " + data["resp"] + "\n";
+      resptext.innerText = "FinGPT: " + data["resp"] + "\n";
       document.getElementById("respons").appendChild(resptext);
       textbox.value = "";
       document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight;
@@ -41,21 +85,52 @@ function get_chat_response(question) {
 
 }
 
-async function getTextFromUrl(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('Failed to fetch');
-    }
-    const html = await response.text();
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
-  } catch (error) {
-    console.error('Error:', error);
-    return null;
-  }
+
+function get_adv_chat_response(question) {
+  
+  
+  // Define the 'response' element 
+  var response = document.getElementById('respons');
+
+  // Create a 'span' element to display the user's question
+  var your_question = document.createElement('span');
+  your_question.innerText = "You: " + question + "\n";
+  response.appendChild(your_question);
+
+  // Create a 'span' element for the loading message
+  var loading = document.createElement('span');
+  loading.innerText = "FinGPT: Loading...";
+  document.getElementById("respons").appendChild(loading);
+
+  // Create the 'request' object
+  var request = {"question": question};
+  document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight; 
+
+
+  
+
+
+  fetch(`http://127.0.0.1:8000/get_adv_response/?question=${question}`, {method: "GET"})
+    .then(response => response.json())
+    .then(data => {
+      console.log(data["resp"]);
+
+      
+
+      // Remove the loading message
+      response.removeChild(loading);
+      
+      // Append the response to the 'response' element
+      resptext = document.createElement('span');
+      resptext.innerText = "FinGPT: " + data["resp"] + "\n";
+      document.getElementById("respons").appendChild(resptext);
+      textbox.value = "";
+      document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight;
+    })
+
 }
+
+
 
 var sitebody = document.body;
 
@@ -114,27 +189,61 @@ textbox.style.zIndex = "1000";
 textbox.type = "text"; 
 
 
-
 //making button to confirm question
 var confirm_button = document.createElement('span');
 confirm_button.style.textAlign = "center";
 confirm_button.style.position = "absolute";
 confirm_button.style.width = "20%";
-confirm_button.style.height = "5%";
+confirm_button.style.height = "7%";
 confirm_button.style.top = "85%";
-confirm_button.style.left = "40%";
+confirm_button.style.left = "10%";
 confirm_button.innerText = "Ask";
-confirm_button.style.backgroundColor = "grey ";
+confirm_button.style.backgroundColor = "grey";
 confirm_button.style.borderRadius = "3px";
 confirm_button.style.zIndex = "1000";
 confirm_button.onclick = function() {get_chat_response(textbox.value)};
 confirm_button.style.cursor = "pointer";
 
+//making button to clear messages
+var clear_button = document.createElement('span');
+clear_button.style.textAlign = "center";
+clear_button.style.position = "absolute";
+clear_button.style.width = "30%";
+clear_button.style.height = "4%";
+clear_button.style.top = "92%";
+clear_button.style.left = "35%";
+clear_button.innerText = "Clear";
+clear_button.style.backgroundColor = "grey";
+clear_button.style.borderRadius = "3px";
+clear_button.style.zIndex = "1001";
+clear_button.onclick = function() {clear()};
+clear_button.style.cursor = "pointer";
+
+//making button to confirm adv_question
+var adv_button = document.createElement('span');
+adv_button.style.textAlign = "center";
+adv_button.style.position = "absolute";
+adv_button.style.width = "20%";
+adv_button.style.height = "7%";
+adv_button.style.top = "85%";
+adv_button.style.left = "70%";
+adv_button.innerText = "Advanced Ask";
+adv_button.style.backgroundColor = "grey";
+adv_button.style.borderRadius = "3px";
+adv_button.style.zIndex = "1000";
+adv_button.onclick = function() {get_adv_chat_response(textbox.value)};
+adv_button.style.cursor = "pointer";
+
+
+
 popup.appendChild(textbox);
 popup.appendChild(confirm_button);
+popup.appendChild(clear_button);
 popup.appendChild(text);
 popup.appendChild(response);
+popup.appendChild(adv_button);
 sitebody.appendChild(popup);
+
 
 
 
