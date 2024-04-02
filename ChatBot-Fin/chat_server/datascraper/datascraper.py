@@ -98,7 +98,7 @@ def create_advanced_response(user_input, message_list):
         info = data_scrape(url)
         if (info != -1):
             print(info)
-            message_list.append( {"role": "system", "content": "url: " + url + "info: " + data_scrape(url)})
+            message_list.append( {"role": "system", "content": "url: " + str(url) + "info: " + data_scrape(url)})
     
 
     message_list.append( {"role": "user", "content": user_input}) 

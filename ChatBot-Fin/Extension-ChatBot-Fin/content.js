@@ -136,6 +136,7 @@ function get_adv_chat_response(question) {
 }
 
 function get_sources(search_query) {
+  sources_window.style.display = 'block';
   console.log(search_query);
 
   sitebody.append(sources_window);
@@ -153,34 +154,34 @@ function get_sources(search_query) {
           source_urls.innerText = '';
           // Loop through each source and create a clickable link
           sources.forEach(source => {
-            var url = source[0];
-            var icon_url = source[1];
-            var link = document.createElement('a');
-            link.href = url;
-            link.innerText = url;
-            link.target = "_blank"; // Open link in a new tab
-        
-            // Create a container div for the icon and the link
-            var container = document.createElement('div');
-            container.style.display = "flex"; // Use flexbox for layout
-            container.style.alignItems = "center"; // Center items vertically
-        
-            // Create an image element for the icon
-            var icon = document.createElement('img');
-            icon.src = icon_url;
-            icon.alt = "Icon";
-            icon.style.width = "16px"; // Set the icon size
-            icon.style.height = "16px";
-            icon.style.marginRight = "5px"; // Add some spacing between the icon and the link
-        
-            // Append the icon and the link to the container
-            container.appendChild(icon);
-            container.appendChild(link);
-        
-            // Append the container to the source_urls element
-            source_urls.appendChild(container);
-        });
-        
+          var url = source[0];
+          var icon_url = source[1];
+          var link = document.createElement('a');
+          link.href = url;
+          link.innerText = url;
+          link.target = "_blank"; // Open link in a new tab
+
+          // Create a container div for the icon and the link
+          var container = document.createElement('div');
+          container.style.display = "flex"; // Use flexbox for layout
+          container.style.alignItems = "center"; // Center items vertically
+
+          // Create an image element for the icon
+          var icon = document.createElement('img');
+          icon.src = icon_url;
+          icon.alt = "Icon";
+          icon.style.width = "16px"; // Set the icon size
+          icon.style.height = "16px";
+          icon.style.marginRight = "5px"; // Add some spacing between the icon and the link
+
+    // Append the icon and the link to the container
+    container.appendChild(icon);
+    container.appendChild(link);
+
+    // Append the container to the source_urls element
+    source_urls.appendChild(container);
+});
+
       });
 }
 
@@ -303,6 +304,21 @@ sources.onclick = function() {get_sources(searchQuery)};
 sources.style.cursor = "pointer";
 
 
+//making button for exiting sources
+var exit_sources = document.createElement('span');
+exit_sources.style.textAlign = "center";
+exit_sources.style.position = "absolute";
+exit_sources.style.width = "50%";
+exit_sources.style.height = "7%";
+exit_sources.style.top = "85%";
+exit_sources.style.left = "25%";
+exit_sources.innerText = "Exit";
+exit_sources.style.backgroundColor = "red";
+exit_sources.style.borderRadius = "3px";
+exit_sources.style.zIndex = "1000";
+exit_sources.onclick = function() { sources_window.style.display = 'none'; };
+exit_sources.style.cursor = "pointer";
+
 
 
 
@@ -344,6 +360,8 @@ source_urls.style.flexDirection = "column"
 source_urls.setAttribute("id","source_urls")
 
 sources_window.appendChild(source_urls);
+sources_window.appendChild(exit_sources);
+
 sitebody.appendChild(popup)
 //sitebody.append(sources_window)
 
