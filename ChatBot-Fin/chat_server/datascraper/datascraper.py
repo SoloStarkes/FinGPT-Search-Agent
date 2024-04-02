@@ -11,6 +11,7 @@ import os
 import openai
 
 from googlesearch import search
+from urllib.parse import quote_plus
 
 api_key = os.getenv("API_KEY7")
 
@@ -138,16 +139,16 @@ def create_response(user_input, message_list):
 #     print("cleared")
 #     return 
 
-def get_sources(message_list):
-    message_list.append({"role": "user", "content": "Output the URLs that you have used for your previous response, and seperate them by a '-'"})
-
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=message_list,
-        
-    )
-    return completion.choices[0].message.content.split("-")
-
+def get_sources(query):
+    query_bytes = query.encode('utf-8')  # Encode query to bytes
+    print("query is ", query_bytes)
+    sources = []
+    for url in search(quote_plus(query_bytes), num=10, stop=10, pause=0):
+        info = data_scrape(url)
+        if info != -1:
+            sources.append(url)
+            print(url)
+    return sources
 # def get_goog_urls(search_query):
 #     urls = []
 #     for url in search(search_query, num=10, stop=10, pause=2):

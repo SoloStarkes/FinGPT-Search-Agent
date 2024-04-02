@@ -60,8 +60,9 @@ function get_chat_response(question) {
   var request = {"question": question};
   document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight; 
 
-
   
+
+  question = encodeURI(question);
 
 
   fetch(`http://127.0.0.1:8000/get_chat_response/?question=${question}`, {method: "GET"})
@@ -85,13 +86,13 @@ function get_chat_response(question) {
 
 }
 
-
+var searchQuery = ""
 function get_adv_chat_response(question) {
   
-  
+  popup.appendChild(sources);
   // Define the 'response' element 
   var response = document.getElementById('respons');
-
+  searchQuery = question
   // Create a 'span' element to display the user's question
   var your_question = document.createElement('span');
   your_question.innerText = "You: " + question + "\n";
@@ -116,7 +117,9 @@ function get_adv_chat_response(question) {
       console.log(data["resp"]);
 
       
-
+      
+      
+      
       // Remove the loading message
       response.removeChild(loading);
       
@@ -131,6 +134,33 @@ function get_adv_chat_response(question) {
 }
 
 
+function get_sources(search_query) {
+  sitebody.append(sources_window) 
+  var response = document.getElementById('respons');
+  console.log("hi1")
+  fetch(`http://127.0.0.1:8000/get_source_urls/?query=${search_query}`, {method: "GET"})
+    .then(response => response.json())
+    .then(data => {
+      console.log(data["resp"]);
+
+      console.log("HIIII2")
+      const urls = data["resp"];
+      for (let url of urls) {
+        console.log(url)
+        console.log("hiii")
+        // Append the response to the 'response' element
+        resptext = document.createElement('span');
+        resptext.innerText = "FinGPT: " + url + "\n";
+        document.getElementById("respons").appendChild(resptext);
+        textbox.value = "";
+        document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight;
+
+      }
+      
+      
+      
+    })
+}
 
 var sitebody = document.body;
 
@@ -143,7 +173,7 @@ popup.id = "draggableElement"; // Assign the ID "draggableElement"
 popup.style.textAlign = "center";
 popup.style.position = "absolute";
 popup.style.width = "300px";
-popup.style.height = "500px";
+popup.style.height = "490px";
 popup.style.top = "10%";
 popup.style.left = "10%";
 popup.style.backgroundColor = "white";
@@ -235,6 +265,24 @@ adv_button.onclick = function() {get_adv_chat_response(textbox.value)};
 adv_button.style.cursor = "pointer";
 
 
+//making button for sources
+var sources = document.createElement('span');
+sources.style.textAlign = "center";
+sources.style.position = "absolute";
+sources.style.width = "20%";
+sources.style.height = "6%";
+sources.style.top = "85%";
+sources.style.left = "40%";
+sources.innerText = "Sources";
+sources.style.backgroundColor = "green";
+sources.style.borderRadius = "3px";
+sources.style.zIndex = "1000";
+sources.onclick = function() {get_sources(searchQuery)};
+sources.style.cursor = "pointer";
+
+
+
+
 
 popup.appendChild(textbox);
 popup.appendChild(confirm_button);
@@ -242,10 +290,23 @@ popup.appendChild(clear_button);
 popup.appendChild(text);
 popup.appendChild(response);
 popup.appendChild(adv_button);
-sitebody.appendChild(popup);
 
+var sources_window = document.createElement('span');
+sources_window.style.textAlign = "center";
+sources_window.style.position = "absolute";
+sources_window.style.width = "300px";
+sources_window.style.height = "500px";
+sources_window.style.top = "10%";
+sources_window.style.left =  "500px";
+sources_window.style.backgroundColor = "white";
+sources_window.style.borderRadius = "15px";
+sources_window.style.boxShadow = "5px 0px 10px black"
+sources_window.style.overflowY = "auto";
+sources_window.style.zIndex = "10000"; 
+sources_window.style.color = "black";
 
-
+sitebody.appendChild(popup)
+//sitebody.append(sources_window)
 
 var popup = document.getElementById("draggableElement");
 var isDragging = false;
@@ -279,7 +340,21 @@ popup.addEventListener("mousedown", onMouseDown);
 document.addEventListener("mousemove", onMouseMove);
 document.addEventListener("mouseup", onMouseUp);
 
+document.addEventListener('mousemove', function(e) {
+  if (isDragging) {
+    var newX = e.clientX - offsetX;
+    var newY = e.clientY - offsetY;
+    
+    popup.style.left = newX + "px";
+    popup.style.top = newY + "px";
 
+    // Update the position of the sources window
+    var sourcesWindowLeft = newX + parseInt(popup.style.width) + 10;
+    var sourcesWindowTop = newY;
+    sources_window.style.left = sourcesWindowLeft + "px";
+    sources_window.style.top = sourcesWindowTop + "px";
+  }
+});
 
 
 function respond() {

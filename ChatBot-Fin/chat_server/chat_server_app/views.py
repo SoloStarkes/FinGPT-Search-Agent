@@ -60,7 +60,9 @@ def clear(request):
 
 @csrf_exempt
 def get_sources(request):
-    sources = ds.get_sources()
+    query = request.GET.get('query', '')
+
+    sources = ds.get_sources(request)
 
     return JsonResponse({'resp': sources})  # Return a JsonResponse
 
