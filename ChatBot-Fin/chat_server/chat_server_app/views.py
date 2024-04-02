@@ -60,11 +60,15 @@ def clear(request):
 
 @csrf_exempt
 def get_sources(request):
-    query = request.GET.get('query', '')
 
-    sources = ds.get_sources(request)
+    query = request.GET.get('query', '')
+    query = str(query)
+    print(type(query))
+    print("views query is ", query)
+    sources = ds.get_sources(query)
 
     return JsonResponse({'resp': sources})  # Return a JsonResponse
+
 
 # def get_goog_urls(request):
 

@@ -23,7 +23,10 @@ fetch(`http://127.0.0.1:8000/input_webtext/?textContent=${encodedContent}`, { me
   
 function clear() {
   var response = document.getElementById('respons');
+  var sourceurls = document.getElementById('source_urls');
+
   response.innerHTML = "";
+  sourceurls.innerHTML = "";
   fetch(`http://127.0.0.1:8000/clear_messages/`, { method: "POST" })
     .then(response => {
         if (!response.ok) {
@@ -59,7 +62,6 @@ function get_chat_response(question) {
   // Create the 'request' object
   var request = {"question": question};
   document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight; 
-
   
 
   question = encodeURI(question);
@@ -133,33 +135,31 @@ function get_adv_chat_response(question) {
 
 }
 
-
 function get_sources(search_query) {
-  sitebody.append(sources_window) 
+  console.log(search_query)
+
+  sitebody.append(sources_window)
   var response = document.getElementById('respons');
   console.log("hi1")
-  fetch(`http://127.0.0.1:8000/get_source_urls/?query=${search_query}`, {method: "GET"})
-    .then(response => response.json())
-    .then(data => {
-      console.log(data["resp"]);
+  fetch(`http://127.0.0.1:8000/get_source_urls/?query=${String(search_query)}`, { method: "GET" })
+      .then(response => response.json())
+      .then(data => {
+          console.log(data["resp"]);
 
-      console.log("HIIII2")
-      const urls = data["resp"];
-      for (let url of urls) {
-        console.log(url)
-        console.log("hiii")
-        // Append the response to the 'response' element
-        resptext = document.createElement('span');
-        resptext.innerText = "FinGPT: " + url + "\n";
-        document.getElementById("respons").appendChild(resptext);
-        textbox.value = "";
-        document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight;
-
-      }
-      
-      
-      
-    })
+          console.log("HIIII2")
+          const urls = data["resp"];
+          var source_urls = document.getElementById('source_urls');
+          source_urls.innerText = '';
+          // Loop through each URL and create a clickable link
+          urls.forEach(url => {
+              var link = document.createElement('a');
+              link.href = url;
+              link.innerText = url;
+              link.target = "_blank"; // Open link in a new tab
+              link.style.display = "block"; // Display each link on a new line
+              source_urls.appendChild(link);
+          });
+      })
 }
 
 var sitebody = document.body;
@@ -305,6 +305,23 @@ sources_window.style.overflowY = "auto";
 sources_window.style.zIndex = "10000"; 
 sources_window.style.color = "black";
 
+
+var source_urls = document.createElement('span');
+source_urls.style.overflowWrap = "break-word";
+source_urls.style.textAlign = "left";
+source_urls.style.border = "1px solid rgb(200,200,200)";
+source_urls.style.position = "absolute";
+source_urls.style.width = "80%";
+source_urls.style.height = "50%";
+source_urls.style.top = "15%";
+source_urls.style.left = "10%";
+source_urls.innerText = "";
+source_urls.style.overflowY = "auto";
+source_urls.style.display = "flex";
+source_urls.style.flexDirection = "column"
+source_urls.setAttribute("id","source_urls")
+
+sources_window.appendChild(source_urls);
 sitebody.appendChild(popup)
 //sitebody.append(sources_window)
 

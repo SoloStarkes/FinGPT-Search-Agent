@@ -11,13 +11,12 @@ import os
 import openai
 
 from googlesearch import search
-from urllib.parse import quote_plus
 
 api_key = os.getenv("API_KEY7")
 
 
     
-def data_scrape(url, timeout=1):
+def data_scrape(url, timeout=.5):
 
     try:
         start_time = time.time()
@@ -140,15 +139,17 @@ def create_response(user_input, message_list):
 #     return 
 
 def get_sources(query):
-    query_bytes = query.encode('utf-8')  # Encode query to bytes
-    print("query is ", query_bytes)
+
+  
     sources = []
-    for url in search(quote_plus(query_bytes), num=10, stop=10, pause=0):
+    for url in search(query, num=10, stop=10, pause =0):
         info = data_scrape(url)
-        if info != -1:
+        if (info != -1):
             sources.append(url)
             print(url)
     return sources
+    
+
 # def get_goog_urls(search_query):
 #     urls = []
 #     for url in search(search_query, num=10, stop=10, pause=2):
