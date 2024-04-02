@@ -11,6 +11,7 @@ import os
 import openai
 
 from googlesearch import search
+from urllib.parse import urljoin
 
 api_key = os.getenv("API_KEY7")
 
@@ -145,7 +146,8 @@ def get_sources(query):
     for url in search(query, num=10, stop=10, pause =0):
         info = data_scrape(url)
         if (info != -1):
-            sources.append(url)
+            tup = url, get_website_icon(url)
+            sources.append(tup)
             print(url)
     return sources
     
@@ -158,3 +160,17 @@ def get_sources(query):
 #     return urls 
 
     
+def get_website_icon(url):
+    # Send a GET request to the URL
+    response = requests.get(url)
+    # Parse the HTML content
+    soup = BeautifulSoup(response.text, 'html.parser')
+    # Find the favicon link tag
+    favicon_tag = soup.find('link', rel='icon') or soup.find('link', rel='shortcut icon')
+    if favicon_tag:
+        # Get the href attribute which contains the URL of the favicon
+        favicon_url = favicon_tag.get('href')
+        # If the URL is relative, convert it to absolute
+        favicon_url = urljoin(url, favicon_url)
+        return favicon_url
+    return None

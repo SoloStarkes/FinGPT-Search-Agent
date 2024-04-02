@@ -69,6 +69,13 @@ def get_sources(request):
 
     return JsonResponse({'resp': sources})  # Return a JsonResponse
 
+@csrf_exempt
+def get_logo(request):
+
+    url = request.Get.get('url', '')
+
+    logo_src = ds.get_website_icon(url)
+    return JsonResponse({'resp', logo_src})
 
 # def get_goog_urls(request):
 

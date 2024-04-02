@@ -136,30 +136,52 @@ function get_adv_chat_response(question) {
 }
 
 function get_sources(search_query) {
-  console.log(search_query)
+  console.log(search_query);
 
-  sitebody.append(sources_window)
+  sitebody.append(sources_window);
   var response = document.getElementById('respons');
-  console.log("hi1")
+  console.log("hi1");
+
   fetch(`http://127.0.0.1:8000/get_source_urls/?query=${String(search_query)}`, { method: "GET" })
       .then(response => response.json())
       .then(data => {
           console.log(data["resp"]);
 
-          console.log("HIIII2")
-          const urls = data["resp"];
+          console.log("HIIII2");
+          const sources = data["resp"];
           var source_urls = document.getElementById('source_urls');
           source_urls.innerText = '';
-          // Loop through each URL and create a clickable link
-          urls.forEach(url => {
-              var link = document.createElement('a');
-              link.href = url;
-              link.innerText = url;
-              link.target = "_blank"; // Open link in a new tab
-              link.style.display = "block"; // Display each link on a new line
-              source_urls.appendChild(link);
-          });
-      })
+          // Loop through each source and create a clickable link
+          sources.forEach(source => {
+            var url = source[0];
+            var icon_url = source[1];
+            var link = document.createElement('a');
+            link.href = url;
+            link.innerText = url;
+            link.target = "_blank"; // Open link in a new tab
+        
+            // Create a container div for the icon and the link
+            var container = document.createElement('div');
+            container.style.display = "flex"; // Use flexbox for layout
+            container.style.alignItems = "center"; // Center items vertically
+        
+            // Create an image element for the icon
+            var icon = document.createElement('img');
+            icon.src = icon_url;
+            icon.alt = "Icon";
+            icon.style.width = "16px"; // Set the icon size
+            icon.style.height = "16px";
+            icon.style.marginRight = "5px"; // Add some spacing between the icon and the link
+        
+            // Append the icon and the link to the container
+            container.appendChild(icon);
+            container.appendChild(link);
+        
+            // Append the container to the source_urls element
+            source_urls.appendChild(container);
+        });
+        
+      });
 }
 
 var sitebody = document.body;
