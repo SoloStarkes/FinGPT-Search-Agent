@@ -17,7 +17,7 @@ api_key = os.getenv("API_KEY7")
 
 
     
-def data_scrape(url, timeout=.5):
+def data_scrape(url, timeout=1):
 
     try:
         start_time = time.time()
@@ -98,7 +98,7 @@ def create_advanced_response(user_input, message_list):
         info = data_scrape(url)
         if (info != -1):
             print(info)
-            message_list.append( {"role": "system", "content": "url: " + str(url) + "info: " + data_scrape(url)})
+            message_list.append( {"role": "system", "content": "url: " + str(url) + "info: " + info})
     
 
     message_list.append( {"role": "user", "content": user_input}) 
