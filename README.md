@@ -11,4 +11,11 @@ Vision: This is a search agent specifically tailored towards the financial domai
 Current Progress: 
 
 1. Regular "ask" can see what's on the current page and give it to the model
-2. ![image](https://github.com/SoloStarkes/FinGPT-Search-Agent/assets/139386263/acc6a83d-7923-49f9-8621-6920af1099df)
+  ![image](https://github.com/SoloStarkes/FinGPT-Search-Agent/assets/139386263/acc6a83d-7923-49f9-8621-6920af1099df)
+
+2. Advanced ask which gives the model a better response to the information because it uses current information (financial and otherwise) from sources
+   ![image](https://github.com/SoloStarkes/FinGPT-Search-Agent/assets/139386263/ef82f5a1-d927-4500-ae65-532bce03de1f)
+
+3. Sources. Sources are very important and helps reduce hallucations as well as help the user see the sourced information on their own.
+   ![image](https://github.com/SoloStarkes/FinGPT-Search-Agent/assets/139386263/d6ed104f-b7d8-403a-8d94-0af0e9341c2e)
+
