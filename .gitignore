@@ -1,1 +1,12 @@
 chat_interface/backend_modules/.env
+chat_interface/db.sqlite3
+chat_interface/chat_interface/__pycache__/__init__.cpython-310.pyc
+chat_interface/chat_interface/__pycache__/settings.cpython-310.pyc
+chat_interface/chat_interface/__pycache__/urls.cpython-310.pyc
+chat_interface/chat_interface/__pycache__/wsgi.cpython-310.pyc
+ChatBot-Fin/chat_server/chat_server/__pycache__/__init__.cpython-310.pyc
+ChatBot-Fin/chat_server/chat_server/__pycache__/settings.cpython-310.pyc
+ChatBot-Fin/chat_server/chat_server/__pycache__/urls.cpython-310.pyc
+ChatBot-Fin/chat_server/chat_server/__pycache__/wsgi.cpython-310.pyc
+ChatBot-Fin/chat_server/chat_server_app/__pycache__/__init__.cpython-310.pyc
+ChatBot-Fin/chat_server/chat_server_app/__pycache__/views.cpython-310.pyc

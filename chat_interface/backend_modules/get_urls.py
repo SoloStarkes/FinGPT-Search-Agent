@@ -8,5 +8,11 @@ The URLs should be returned as a list of strings.
 The main websites we will be searching for now will be bloomberg, yahoo finance, and 
 google search. If you want, you can use other sites in your implementation
 '''
-def get_urls(keywords:list) -> list:
-    pass
+
+from googlesearch import search
+
+def get_urls(query) -> list:
+    urls = []
+    for url in search(query, num=10, stop=10, pause =0):
+        urls.append(url)
+    return urls

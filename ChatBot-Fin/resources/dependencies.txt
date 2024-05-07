@@ -1,1 +1,18 @@
-pip install python-dotenv django django-cors-headers bs4 requests openai==0.28 google
+pip install:
+    python-dotenv
+    django
+    django-cors-headers
+    bs4
+    requests
+    openai==0.28
+    google
+    transformers
+    accelerate
+    fairscale
+    fire
+    groq
+
+sudo apt install:
+    dos2unix
+    wget
+    med5sum

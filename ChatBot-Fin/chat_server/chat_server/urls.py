@@ -22,7 +22,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('get_number', views.Get_A_Number, name='get_number'),
     path('get_chat_response/', views.chat_response, name='get_chat_response'),
-    path('input_webtext/', views.add_webtext, name='input_webtext')
+    path('input_webtext/', views.add_webtext, name='input_webtext'),
+    path('get_adv_response/', views.adv_response, name='get_adv_response'),
+    path('clear_messages/', views.clear, name = 'clear_messages'),
+    path('get_source_urls/', views.get_sources, name = 'get_source_urls'),
 
 
 ]

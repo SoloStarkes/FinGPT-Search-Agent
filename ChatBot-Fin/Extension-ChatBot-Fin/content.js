@@ -1,4 +1,50 @@
+const currentUrl = window.location.href.toString();
+
+console.log(currentUrl.toString());
+
+const textContent = document.body.innerText;
+const encodedContent = encodeURIComponent(textContent);
+
+fetch(`http://127.0.0.1:8000/input_webtext/?textContent=${encodedContent}`, { method: "POST" })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+    });
+
+
+  
+function clear() {
+  var response = document.getElementById('respons');
+  var sourceurls = document.getElementById('source_urls');
+
+  response.innerHTML = "";
+  sourceurls.innerHTML = "";
+  fetch(`http://127.0.0.1:8000/clear_messages/`, { method: "POST" })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+    });
+
+
+}
 function get_chat_response(question) {
+
   
   // Define the 'response' element 
   var response = document.getElementById('respons');
@@ -10,30 +56,31 @@ function get_chat_response(question) {
 
   // Create a 'span' element for the loading message
   var loading = document.createElement('span');
-  loading.innerText = "ChatRPI: Loading...";
+  loading.innerText = "FinGPT: Loading...";
   document.getElementById("respons").appendChild(loading);
 
   // Create the 'request' object
   var request = {"question": question};
   document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight; 
-  // Make a fetch request
+  
+
+  question = encodeURI(question);
+
+
   fetch(`http://127.0.0.1:8000/get_chat_response/?question=${question}`, {method: "GET"})
     .then(response => response.json())
     .then(data => {
       console.log(data["resp"]);
-      const currentUrl = window.location.href;
-
 
       // Log the URL to the console
-      console.log(currentUrl);
-      console.log(getTextFromUrl(currentUrl));
+      
 
       // Remove the loading message
       response.removeChild(loading);
       
       // Append the response to the 'response' element
       resptext = document.createElement('span');
-      resptext.innerText = "ChatRPI: " + data["resp"] + "\n";
+      resptext.innerText = "FinGPT: " + data["resp"] + "\n";
       document.getElementById("respons").appendChild(resptext);
       textbox.value = "";
       document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight;
@@ -41,20 +88,101 @@ function get_chat_response(question) {
 
 }
 
-async function getTextFromUrl(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('Failed to fetch');
-    }
-    const html = await response.text();
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
-  } catch (error) {
-    console.error('Error:', error);
-    return null;
-  }
+var searchQuery = ""
+function get_adv_chat_response(question) {
+  
+  popup.appendChild(sources);
+  // Define the 'response' element 
+  var response = document.getElementById('respons');
+  searchQuery = question
+  // Create a 'span' element to display the user's question
+  var your_question = document.createElement('span');
+  your_question.innerText = "You: " + question + "\n";
+  response.appendChild(your_question);
+
+  // Create a 'span' element for the loading message
+  var loading = document.createElement('span');
+  loading.innerText = "FinGPT: Loading...";
+  document.getElementById("respons").appendChild(loading);
+
+  // Create the 'request' object
+  var request = {"question": question};
+  document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight; 
+
+
+  
+
+
+  fetch(`http://127.0.0.1:8000/get_adv_response/?question=${question}`, {method: "GET"})
+    .then(response => response.json())
+    .then(data => {
+      console.log(data["resp"]);
+
+      
+      
+      
+      
+      // Remove the loading message
+      response.removeChild(loading);
+      
+      // Append the response to the 'response' element
+      resptext = document.createElement('span');
+      resptext.innerText = "FinGPT: " + data["resp"] + "\n";
+      document.getElementById("respons").appendChild(resptext);
+      textbox.value = "";
+      document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight;
+    })
+
+}
+
+function get_sources(search_query) {
+  sources_window.style.display = 'block';
+  console.log(search_query);
+
+  sitebody.append(sources_window);
+  var response = document.getElementById('respons');
+  console.log("hi1");
+
+  fetch(`http://127.0.0.1:8000/get_source_urls/?query=${String(search_query)}`, { method: "GET" })
+      .then(response => response.json())
+      .then(data => {
+          console.log(data["resp"]);
+
+          console.log("HIIII2");
+          const sources = data["resp"];
+          var source_urls = document.getElementById('source_urls');
+          source_urls.innerText = '';
+          // Loop through each source and create a clickable link
+          sources.forEach(source => {
+          var url = source[0];
+          var icon_url = source[1];
+          var link = document.createElement('a');
+          link.href = url;
+          link.innerText = url;
+          link.target = "_blank"; // Open link in a new tab
+
+          // Create a container div for the icon and the link
+          var container = document.createElement('div');
+          container.style.display = "flex"; // Use flexbox for layout
+          container.style.alignItems = "center"; // Center items vertically
+
+          // Create an image element for the icon
+          var icon = document.createElement('img');
+          icon.src = icon_url;
+          icon.alt = "Icon";
+          icon.style.width = "16px"; // Set the icon size
+          icon.style.height = "16px";
+          icon.style.marginRight = "5px"; // Add some spacing between the icon and the link
+
+    // Append the icon and the link to the container
+    container.appendChild(icon);
+    container.appendChild(link);
+
+    // Append the container to the source_urls element
+    source_urls.appendChild(container);
+});
+
+      });
 }
 
 var sitebody = document.body;
@@ -68,7 +196,7 @@ popup.id = "draggableElement"; // Assign the ID "draggableElement"
 popup.style.textAlign = "center";
 popup.style.position = "absolute";
 popup.style.width = "300px";
-popup.style.height = "500px";
+popup.style.height = "490px";
 popup.style.top = "10%";
 popup.style.left = "10%";
 popup.style.backgroundColor = "white";
@@ -114,29 +242,128 @@ textbox.style.zIndex = "1000";
 textbox.type = "text"; 
 
 
-
 //making button to confirm question
 var confirm_button = document.createElement('span');
 confirm_button.style.textAlign = "center";
 confirm_button.style.position = "absolute";
 confirm_button.style.width = "20%";
-confirm_button.style.height = "5%";
+confirm_button.style.height = "7%";
 confirm_button.style.top = "85%";
-confirm_button.style.left = "40%";
+confirm_button.style.left = "10%";
 confirm_button.innerText = "Ask";
-confirm_button.style.backgroundColor = "grey ";
+confirm_button.style.backgroundColor = "grey";
 confirm_button.style.borderRadius = "3px";
 confirm_button.style.zIndex = "1000";
 confirm_button.onclick = function() {get_chat_response(textbox.value)};
 confirm_button.style.cursor = "pointer";
 
+//making button to clear messages
+var clear_button = document.createElement('span');
+clear_button.style.textAlign = "center";
+clear_button.style.position = "absolute";
+clear_button.style.width = "30%";
+clear_button.style.height = "4%";
+clear_button.style.top = "92%";
+clear_button.style.left = "35%";
+clear_button.innerText = "Clear";
+clear_button.style.backgroundColor = "grey";
+clear_button.style.borderRadius = "3px";
+clear_button.style.zIndex = "1001";
+clear_button.onclick = function() {clear()};
+clear_button.style.cursor = "pointer";
+
+//making button to confirm adv_question
+var adv_button = document.createElement('span');
+adv_button.style.textAlign = "center";
+adv_button.style.position = "absolute";
+adv_button.style.width = "20%";
+adv_button.style.height = "7%";
+adv_button.style.top = "85%";
+adv_button.style.left = "70%";
+adv_button.innerText = "Advanced Ask";
+adv_button.style.backgroundColor = "grey";
+adv_button.style.borderRadius = "3px";
+adv_button.style.zIndex = "1000";
+adv_button.onclick = function() {get_adv_chat_response(textbox.value)};
+adv_button.style.cursor = "pointer";
+
+
+//making button for sources
+var sources = document.createElement('span');
+sources.style.textAlign = "center";
+sources.style.position = "absolute";
+sources.style.width = "20%";
+sources.style.height = "6%";
+sources.style.top = "85%";
+sources.style.left = "40%";
+sources.innerText = "Sources";
+sources.style.backgroundColor = "green";
+sources.style.borderRadius = "3px";
+sources.style.zIndex = "1000";
+sources.onclick = function() {get_sources(searchQuery)};
+sources.style.cursor = "pointer";
+
+
+//making button for exiting sources
+var exit_sources = document.createElement('span');
+exit_sources.style.textAlign = "center";
+exit_sources.style.position = "absolute";
+exit_sources.style.width = "50%";
+exit_sources.style.height = "7%";
+exit_sources.style.top = "85%";
+exit_sources.style.left = "25%";
+exit_sources.innerText = "Exit";
+exit_sources.style.backgroundColor = "red";
+exit_sources.style.borderRadius = "3px";
+exit_sources.style.zIndex = "1000";
+exit_sources.onclick = function() { sources_window.style.display = 'none'; };
+exit_sources.style.cursor = "pointer";
+
+
+
+
 popup.appendChild(textbox);
 popup.appendChild(confirm_button);
+popup.appendChild(clear_button);
 popup.appendChild(text);
 popup.appendChild(response);
-sitebody.appendChild(popup);
+popup.appendChild(adv_button);
+
+var sources_window = document.createElement('span');
+sources_window.style.textAlign = "center";
+sources_window.style.position = "absolute";
+sources_window.style.width = "300px";
+sources_window.style.height = "500px";
+sources_window.style.top = "10%";
+sources_window.style.left =  "500px";
+sources_window.style.backgroundColor = "white";
+sources_window.style.borderRadius = "15px";
+sources_window.style.boxShadow = "5px 0px 10px black"
+sources_window.style.overflowY = "auto";
+sources_window.style.zIndex = "10000"; 
+sources_window.style.color = "black";
 
 
+var source_urls = document.createElement('span');
+source_urls.style.overflowWrap = "break-word";
+source_urls.style.textAlign = "left";
+source_urls.style.border = "1px solid rgb(200,200,200)";
+source_urls.style.position = "absolute";
+source_urls.style.width = "80%";
+source_urls.style.height = "50%";
+source_urls.style.top = "15%";
+source_urls.style.left = "10%";
+source_urls.innerText = "";
+source_urls.style.overflowY = "auto";
+source_urls.style.display = "flex";
+source_urls.style.flexDirection = "column"
+source_urls.setAttribute("id","source_urls")
+
+sources_window.appendChild(source_urls);
+sources_window.appendChild(exit_sources);
+
+sitebody.appendChild(popup)
+//sitebody.append(sources_window)
 
 var popup = document.getElementById("draggableElement");
 var isDragging = false;
@@ -170,7 +397,21 @@ popup.addEventListener("mousedown", onMouseDown);
 document.addEventListener("mousemove", onMouseMove);
 document.addEventListener("mouseup", onMouseUp);
 
+document.addEventListener('mousemove', function(e) {
+  if (isDragging) {
+    var newX = e.clientX - offsetX;
+    var newY = e.clientY - offsetY;
+    
+    popup.style.left = newX + "px";
+    popup.style.top = newY + "px";
 
+    // Update the position of the sources window
+    var sourcesWindowLeft = newX + parseInt(popup.style.width) + 10;
+    var sourcesWindowTop = newY;
+    sources_window.style.left = sourcesWindowLeft + "px";
+    sources_window.style.top = sourcesWindowTop + "px";
+  }
+});
 
 
 function respond() {

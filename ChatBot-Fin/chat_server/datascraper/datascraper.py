@@ -10,11 +10,14 @@ from bs4 import BeautifulSoup
 import os
 import openai
 
+from googlesearch import search
+from urllib.parse import urljoin
+
 api_key = os.getenv("API_KEY7")
 
 
     
-def data_scrape(url, timeout=2):
+def data_scrape(url, timeout=1):
 
     try:
         start_time = time.time()
@@ -28,8 +31,10 @@ def data_scrape(url, timeout=2):
                 print("Request took more than 2 seconds. Skipping...")
                 return -1
             soup = BeautifulSoup(response.text, 'html.parser')
+            first_5000_characters = soup.text[:4000]
+        
 
-            return soup.text
+            return first_5000_characters
         else:
             print('Failed to retrieve the page. Status code:', response.status_code)
             return -1
@@ -83,40 +88,89 @@ def search_websites_with_keyword(keyword):
 
 
 
-def create_response(user_input, message_list):
-    #time.sleep(1)
-    #message_list.append( {"role": "user", "content": user_input})
+def create_advanced_response(user_input, message_list):
+    
     print(message_list)
     openai.api_key = api_key
-    print("starting creation")
-    completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=message_list,
+    print("starting creation") 
+    #urls = get_goog_urls(user_input)
+    for url in search(user_input, num=10, stop=10, pause =0):
+        info = data_scrape(url)
+        if (info != -1):
+            print(info)
+            message_list.append( {"role": "system", "content": "url: " + str(url) + "info: " + info})
     
+
+    message_list.append( {"role": "user", "content": user_input}) 
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=message_list,
+        
     )
-    print("created")
     print(completion.choices[0].message.content)
-    #message_list.pop()
+   
     
     return completion.choices[0].message.content
 
 
+def create_response(user_input, message_list):
+    print(message_list)
+    openai.api_key = api_key
+    print("starting creation") 
+    
+    
 
-# def input_webtext(weburl):
-#     text = data_scrape(weburl)
-#     message_list.append( {"role": "system", "content": text})
-#     print(text)
+    message_list.append( {"role": "user", "content": user_input}) 
 
-if __name__ == "__main__":
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=message_list,
+        
+    )
 
-    message_list=[
-    {"role": "system", "content": "You are a helpful assistant."},
-  ]
-    user_input = input("Enter a message: ")
-    search_websites_with_keyword("rpi")
+    print(completion.choices[0].message.content)
+   
+    message_list.append({"role": "system", "content": completion.choices[0].message.content})
 
-    ex_url = "https://www.rpi.edu/"
-    #some_info = data_scrape(ex_url)
-    message_list.append( {"role": "system", "content": some_info})
+    return completion.choices[0].message.content
 
-    create_response(user_input, message_list)
+# def clear(request): 
+#     message_list = []
+#     print("cleared")
+#     return 
+
+def get_sources(query):
+
+  
+    sources = []
+    for url in search(query, num=10, stop=10, pause =0):
+        info = data_scrape(url)
+        if (info != -1):
+            tup = url, get_website_icon(url)
+            sources.append(tup)
+            print(url)
+    return sources
+    
+
+# def get_goog_urls(search_query):
+#     urls = []
+#     for url in search(search_query, num=10, stop=10, pause=2):
+#         print("dog")
+#         urls.append(url)
+#     return urls 
+
+    
+def get_website_icon(url):
+    # Send a GET request to the URL
+    response = requests.get(url)
+    # Parse the HTML content
+    soup = BeautifulSoup(response.text, 'html.parser')
+    # Find the favicon link tag
+    favicon_tag = soup.find('link', rel='icon') or soup.find('link', rel='shortcut icon')
+    if favicon_tag:
+        # Get the href attribute which contains the URL of the favicon
+        favicon_url = favicon_tag.get('href')
+        # If the URL is relative, convert it to absolute
+        favicon_url = urljoin(url, favicon_url)
+        return favicon_url
+    return None
