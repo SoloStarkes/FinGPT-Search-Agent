@@ -12,7 +12,7 @@ google search. If you want, you can use other sites in your implementation
 from googlesearch import search
 
 def get_urls(query) -> list:
-    List_Urls = []
+    urls = []
     for url in search(query, num=10, stop=10, pause =0):
-        List_Urls.append(url)
-
+        urls.append(url)
+    return urls
