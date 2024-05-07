@@ -6,3 +6,13 @@ pip install:
     requests
     openai==0.28
     google
+    transformers
+    accelerate
+    fairscale
+    fire
+
+sudo apt install:
+    dos2unix
+    wget
+    med5sum
+    
