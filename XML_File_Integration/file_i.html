@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload and Chat</title>
+</head>
+<body>
+    <h1>File Upload and Chat</h1>
+    <link rel="stylesheet" href="file_i.css">
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="fileInput">Select image:</label>
+        <input type="file" id="fileInput" name="fileInput" accept=".xml, .xbrl">
+        <input type="button" value="Upload" onclick="uploadFile()">
+    </form>
+
+    <div id="chatContainer">
+        <h2>Chat</h2>
+        <div id="chatMessages"></div>
+        <input type="text" id="userInput" placeholder="Ask a question...">
+        <button onclick="sendQuestion()">Send</button>
+    </div>
+
+    <script src="file_i.js"></script>
+</body>
+</html>
+

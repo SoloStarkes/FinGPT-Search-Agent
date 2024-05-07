@@ -16,4 +16,3 @@ sudo apt install:
     dos2unix
     wget
     med5sum
-    
