@@ -1,1 +1,3 @@
 chat_interface/backend_modules/.env
+ # Intellij Idea
+ .idea/
