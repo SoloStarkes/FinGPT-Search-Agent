@@ -154,7 +154,6 @@ function get_sources(search_query) {
         });
 }
 
-
 popup = document.createElement('div');
 popup.id = "draggableElement";
 
@@ -164,19 +163,42 @@ header.id = "header";
 const title = document.createElement('span');
 title.innerText = "FinGPT";
 
-// Used for Dark mode and other settings, not implemented yet
+const iconContainer = document.createElement('div');
+iconContainer.id = "icon-container";
+
 const settingsIcon = document.createElement('span');
 settingsIcon.innerText = "⚙️";
 settingsIcon.className = "icon";
+
+const minimizeIcon = document.createElement('span');
+minimizeIcon.innerText = "➖";
+minimizeIcon.className = "icon";
+minimizeIcon.onclick = function() {
+    const content = document.getElementById('content');
+    const inputContainer = document.getElementById('inputContainer');
+    const buttonContainer = document.getElementById('buttonContainer');
+    if (content.style.display === 'none') {
+        content.style.display = 'flex';
+        inputContainer.style.display = 'flex';
+        buttonContainer.style.display = 'flex';
+    } else {
+        content.style.display = 'none';
+        inputContainer.style.display = 'none';
+        buttonContainer.style.display = 'none';
+    }
+};
 
 const closeIcon = document.createElement('span');
 closeIcon.innerText = "❌";
 closeIcon.className = "icon";
 closeIcon.onclick = function() { popup.style.display = 'none'; };
 
+iconContainer.appendChild(settingsIcon);
+iconContainer.appendChild(minimizeIcon);
+iconContainer.appendChild(closeIcon);
+
 header.appendChild(title);
-header.appendChild(settingsIcon);
-header.appendChild(closeIcon);
+header.appendChild(iconContainer);
 
 const content = document.createElement('div');
 content.id = "content";
@@ -196,16 +218,26 @@ inputContainer.id = "inputContainer";
 textbox.type = "text";
 textbox.placeholder = "Ask me something!";
 
-const sendButton = document.createElement('button');
-sendButton.innerText = "➡️";
-sendButton.onclick = function() { get_chat_response(textbox.value) };
-
 inputContainer.appendChild(textbox);
-inputContainer.appendChild(sendButton);
+
+const buttonContainer = document.createElement('div');
+buttonContainer.id = "buttonContainer";
+
+const askButton = document.createElement('button');
+askButton.innerText = "Ask";
+askButton.onclick = function() { get_chat_response(textbox.value) };
+
+const advAskButton = document.createElement('button');
+advAskButton.innerText = "Advanced Ask";
+advAskButton.onclick = function() { get_adv_chat_response(textbox.value) };
+
+buttonContainer.appendChild(askButton);
+buttonContainer.appendChild(advAskButton);
 
 popup.appendChild(header);
 popup.appendChild(content);
 popup.appendChild(inputContainer);
+popup.appendChild(buttonContainer);
 
 sitebody.appendChild(popup);
 
@@ -248,6 +280,7 @@ document.addEventListener('mousemove', function(e) {
 });
 
 function respond() {
-    question = textbox.value;
+    const question = textbox.value;
+    const response = document.getElementById('respons');
     response.innerText = "You asked: " + question;
 }

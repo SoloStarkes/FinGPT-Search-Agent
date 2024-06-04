@@ -30,6 +30,12 @@
 
 #header .icon {
     cursor: pointer;
+    margin-left: 10px;
+}
+
+#icon-container {
+    display: flex;
+    align-items: center;
 }
 
 #content {
@@ -72,10 +78,18 @@
     outline: none;
 }
 
-#inputContainer button {
-    background: none;
+#buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#buttonContainer button {
+    background-color: grey;
     border: none;
-    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px 15px;
     color: white;
-    font-size: 1.2em;
+    cursor: pointer;
+    margin: 0 5px;
 }
