@@ -14,6 +14,7 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
+    transition: height 0.3s ease;
 }
 
 #header {
@@ -92,4 +93,21 @@
     color: white;
     cursor: pointer;
     margin: 0 5px;
+}
+
+#respons span {
+    text-align: left;
+    display: block;
+    margin: 5px 0;
+}
+
+.minimized {
+    height: 60px;
+    overflow: hidden;
+}
+
+.minimized #content,
+.minimized #inputContainer,
+.minimized #buttonContainer {
+    display: none;
 }

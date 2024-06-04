@@ -46,7 +46,7 @@ function get_chat_response(question) {
     const response = document.getElementById('respons');
 
     const your_question = document.createElement('span');
-    your_question.innerText = "You: " + question + "\n";
+    your_question.innerText = "You: " + question;
     response.appendChild(your_question);
 
     const loading = document.createElement('span');
@@ -66,7 +66,7 @@ function get_chat_response(question) {
             response.removeChild(loading);
 
             const resptext = document.createElement('span');
-            resptext.innerText = "FinGPT: " + data["resp"] + "\n";
+            resptext.innerText = "FinGPT: " + data["resp"];
             document.getElementById("respons").appendChild(resptext);
             textbox.value = "";
             document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight;
@@ -82,7 +82,7 @@ function get_adv_chat_response(question) {
     searchQuery = question;
 
     const your_question = document.createElement('span');
-    your_question.innerText = "You: " + question + "\n";
+    your_question.innerText = "You: " + question;
     response.appendChild(your_question);
 
     const loading = document.createElement('span');
@@ -100,7 +100,7 @@ function get_adv_chat_response(question) {
             response.removeChild(loading);
 
             const resptext = document.createElement('span');
-            resptext.innerText = "FinGPT: " + data["resp"] + "\n";
+            resptext.innerText = "FinGPT: " + data["resp"];
             document.getElementById("respons").appendChild(resptext);
             textbox.value = "";
             document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight;
@@ -173,17 +173,10 @@ const minimizeIcon = document.createElement('span');
 minimizeIcon.innerText = "➖";
 minimizeIcon.className = "icon";
 minimizeIcon.onclick = function() {
-    const content = document.getElementById('content');
-    const inputContainer = document.getElementById('inputContainer');
-    const buttonContainer = document.getElementById('buttonContainer');
-    if (content.style.display === 'none') {
-        content.style.display = 'flex';
-        inputContainer.style.display = 'flex';
-        buttonContainer.style.display = 'flex';
+    if (popup.classList.contains('minimized')) {
+        popup.classList.remove('minimized');
     } else {
-        content.style.display = 'none';
-        inputContainer.style.display = 'none';
-        buttonContainer.style.display = 'none';
+        popup.classList.add('minimized');
     }
 };
 
@@ -206,7 +199,7 @@ const titleText = document.createElement('h2');
 titleText.innerText = "Your personalized financial assistant.";
 
 const subtitleText = document.createElement('p');
-subtitleText.innerText = "Here are some quick functions to get you started:";
+subtitleText.innerText = "Ask me something!";
 
 content.appendChild(titleText);
 content.appendChild(subtitleText);
