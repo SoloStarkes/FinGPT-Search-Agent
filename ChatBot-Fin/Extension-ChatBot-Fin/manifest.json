@@ -15,6 +15,9 @@
       ],
       "js": [
         "content.js"
+      ],
+      "css": [
+        "textbox.css"
       ]
     }
   ],
