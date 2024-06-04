@@ -78,9 +78,8 @@ let searchQuery = "";
 let popup;
 
 function get_adv_chat_response(question) {
-    popup.appendChild(sources);
     const response = document.getElementById('respons');
-    searchQuery = question
+    searchQuery = question;
 
     const your_question = document.createElement('span');
     your_question.innerText = "You: " + question + "\n";
@@ -220,6 +219,10 @@ textbox.placeholder = "Ask me something!";
 
 inputContainer.appendChild(textbox);
 
+const responseContainer = document.createElement('div');
+responseContainer.id = "respons";
+content.appendChild(responseContainer);
+
 const buttonContainer = document.createElement('div');
 buttonContainer.id = "buttonContainer";
 
@@ -238,6 +241,15 @@ popup.appendChild(header);
 popup.appendChild(content);
 popup.appendChild(inputContainer);
 popup.appendChild(buttonContainer);
+
+const sources_window = document.createElement('div');
+sources_window.id = "sources_window";
+sources_window.style.display = 'none';
+
+const sources = document.createElement('span');
+sources.id = "sources";
+
+popup.appendChild(sources_window);
 
 sitebody.appendChild(popup);
 
