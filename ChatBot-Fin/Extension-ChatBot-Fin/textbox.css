@@ -1,0 +1,139 @@
+#draggableElement {
+    text-align: center;
+    position: absolute;
+    width: 300px;
+    height: 490px;
+    top: 10%;
+    left: 10%;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 5px 0px 10px black;
+    overflow-y: auto;
+    z-index: 10000;
+    color: black;
+}
+
+#respons {
+    overflow-wrap: break-word;
+    text-align: left;
+    border: 1px solid rgb(200,200,200);
+    position: absolute;
+    width: 80%;
+    height: 50%;
+    top: 15%;
+    left: 10%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#source_urls {
+    overflow-wrap: break-word;
+    text-align: left;
+    border: 1px solid rgb(200,200,200);
+    position: absolute;
+    width: 80%;
+    height: 50%;
+    top: 15%;
+    left: 10%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.sources-window {
+    text-align: center;
+    position: absolute;
+    width: 300px;
+    height: 500px;
+    top: 10%;
+    left: 500px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 5px 0px 10px black;
+    overflow-y: auto;
+    z-index: 10000;
+    color: black;
+}
+
+#text {
+    position: absolute;
+    width: 80%;
+    height: 10%;
+    top: 5%;
+    left: 10%;
+}
+
+#textbox {
+    position: absolute;
+    width: 80%;
+    height: 5%;
+    top: 75%;
+    left: 10%;
+    z-index: 1000;
+}
+
+#confirm_button {
+    text-align: center;
+    position: absolute;
+    width: 20%;
+    height: 7%;
+    top: 85%;
+    left: 10%;
+    background-color: grey;
+    border-radius: 3px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+#clear_button {
+    text-align: center;
+    position: absolute;
+    width: 30%;
+    height: 4%;
+    top: 92%;
+    left: 35%;
+    background-color: grey;
+    border-radius: 3px;
+    z-index: 1001;
+    cursor: pointer;
+}
+
+#adv_button {
+    text-align: center;
+    position: absolute;
+    width: 20%;
+    height: 7%;
+    top: 85%;
+    left: 70%;
+    background-color: grey;
+    border-radius: 3px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+#sources {
+    text-align: center;
+    position: absolute;
+    width: 20%;
+    height: 6%;
+    top: 85%;
+    left: 40%;
+    background-color: green;
+    border-radius: 3px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+#exit_sources {
+    text-align: center;
+    position: absolute;
+    width: 50%;
+    height: 7%;
+    top: 85%;
+    left: 25%;
+    background-color: red;
+    border-radius: 3px;
+    z-index: 1000;
+    cursor: pointer;
+}

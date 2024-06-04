@@ -13,12 +13,8 @@
         "https://www.bloomberg.com/*",
         "https://finance.yahoo.com/*"
       ],
-      "css": ["styles.css"],
       "js": [
-        "js/dom.js",
-        "js/api.js",
-        "js/drag.js",
-        "js/popup.js"
+        "content.js"
       ]
     }
   ],
