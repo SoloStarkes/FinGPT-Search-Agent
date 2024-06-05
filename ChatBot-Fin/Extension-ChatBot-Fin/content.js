@@ -112,45 +112,28 @@ function get_adv_chat_response(question) {
 const sitebody = document.body;
 
 function get_sources(search_query) {
+    const sources_window = document.getElementById('sources_window');
     sources_window.style.display = 'block';
-    console.log(search_query);
-
-    sitebody.append(sources_window);
-    const response = document.getElementById('respons');
-    console.log("hi1");
 
     fetch(`http://127.0.0.1:8000/get_source_urls/?query=${String(search_query)}`, { method: "GET" })
         .then(response => response.json())
         .then(data => {
             console.log(data["resp"]);
-            console.log("HIIII2");
             const sources = data["resp"];
             const source_urls = document.getElementById('source_urls');
-            source_urls.innerText = '';
+            source_urls.innerHTML = '';
 
             sources.forEach(source => {
                 const url = source[0];
-                const icon_url = source[1];
                 const link = document.createElement('a');
                 link.href = url;
                 link.innerText = url;
                 link.target = "_blank";
 
-                const container = document.createElement('div');
-                container.style.display = "flex";
-                container.style.alignItems = "center";
+                const listItem = document.createElement('li');
+                listItem.appendChild(link);
 
-                const icon = document.createElement('img');
-                icon.src = icon_url;
-                icon.alt = "Icon";
-                icon.style.width = "16px";
-                icon.style.height = "16px";
-                icon.style.marginRight = "5px";
-
-                container.appendChild(icon);
-                container.appendChild(link);
-
-                source_urls.appendChild(container);
+                source_urls.appendChild(listItem);
             });
         });
 }
@@ -214,11 +197,6 @@ textbox.placeholder = "Ask me something!";
 
 inputContainer.appendChild(textbox);
 
-const clearButton = document.createElement('button');
-clearButton.innerText = "Clear";
-clearButton.className = "clear-button";
-clearButton.onclick = clear;
-
 const responseContainer = document.createElement('div');
 responseContainer.id = "respons";
 content.appendChild(responseContainer);
@@ -237,9 +215,25 @@ advAskButton.onclick = function() { get_adv_chat_response(textbox.value) };
 buttonContainer.appendChild(askButton);
 buttonContainer.appendChild(advAskButton);
 
+const buttonRow = document.createElement('div');
+buttonRow.className = "button-row";
+
+const clearButton = document.createElement('button');
+clearButton.innerText = "Clear";
+clearButton.className = "clear-button";
+clearButton.onclick = clear;
+
+const sourcesButton = document.createElement('button');
+sourcesButton.innerText = "Sources";
+sourcesButton.className = "sources-button";
+sourcesButton.onclick = function() { get_sources(searchQuery); };
+
+buttonRow.appendChild(sourcesButton);
+buttonRow.appendChild(clearButton);
+
 popup.appendChild(header);
 popup.appendChild(content);
-popup.appendChild(clearButton); // Add clear button before inputContainer
+popup.appendChild(buttonRow); // Add button row here
 popup.appendChild(inputContainer);
 popup.appendChild(buttonContainer);
 
@@ -247,86 +241,80 @@ const sources_window = document.createElement('div');
 sources_window.id = "sources_window";
 sources_window.style.display = 'none';
 
-const sources = document.createElement('span');
-sources.id = "sources";
+const sourcesHeader = document.createElement('div');
+sourcesHeader.id = "sources_window_header";
 
-popup.appendChild(sources_window);
+const sourcesTitle = document.createElement('h2');
+sourcesTitle.innerText = "Sources";
 
+const sourcesCloseIcon = document.createElement('span');
+sourcesCloseIcon.innerText = "❌";
+sourcesCloseIcon.className = "icon";
+sourcesCloseIcon.onclick = function() { sources_window.style.display = 'none'; };
+
+sourcesHeader.appendChild(sourcesTitle);
+sourcesHeader.appendChild(sourcesCloseIcon);
+
+const source_urls = document.createElement('ul');
+source_urls.id = "source_urls";
+
+sources_window.appendChild(sourcesHeader);
+sources_window.appendChild(source_urls);
+
+sitebody.appendChild(sources_window);
 sitebody.appendChild(popup);
 
 popup = document.getElementById("draggableElement");
-let isDragging = false;
-let isResizing = false;
-let offsetX, offsetY, startX, startY, startWidth, startHeight;
 
-function onMouseDown(event) {
-    const rect = popup.getBoundingClientRect();
-    const isRightEdge = event.clientX > rect.right - 10;
-    const isBottomEdge = event.clientY > rect.bottom - 10;
+function makeDraggable(element) {
+    let isDragging = false;
+    let isResizing = false;
+    let offsetX, offsetY, startX, startY, startWidth, startHeight;
 
-    if (isRightEdge || isBottomEdge) {
-        isResizing = true;
-        startX = event.clientX;
-        startY = event.clientY;
-        startWidth = rect.width;
-        startHeight = rect.height;
-    } else {
-        isDragging = true;
-        offsetX = event.clientX - rect.left;
-        offsetY = event.clientY - rect.top;
-    }
-}
+    element.addEventListener('mousedown', function(e) {
+        const rect = element.getBoundingClientRect();
+        const isRightEdge = e.clientX > rect.right - 10;
+        const isBottomEdge = e.clientY > rect.bottom - 10;
 
-function onMouseMove(event) {
-    if (isDragging) {
-        const newX = event.clientX - offsetX;
-        const newY = event.clientY - offsetY;
-
-        popup.style.left = newX + "px";
-        popup.style.top = newY + "px";
-    } else if (isResizing) {
-        const newWidth = startWidth + (event.clientX - startX);
-        const newHeight = startHeight + (event.clientY - startY);
-
-        if (newWidth > 250) {
-            popup.style.width = newWidth + "px";
+        if (isRightEdge || isBottomEdge) {
+            isResizing = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            startWidth = rect.width;
+            startHeight = rect.height;
+        } else {
+            isDragging = true;
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
         }
-        if (newHeight > 300) {
-            popup.style.height = newHeight + "px";
-        }
-    }
-}
+    });
 
-function onMouseUp() {
-    isDragging = false;
-    isResizing = false;
-}
-
-popup.addEventListener("mousedown", onMouseDown);
-document.addEventListener("mousemove", onMouseMove);
-document.addEventListener("mouseup", onMouseUp);
-
-document.addEventListener('mousemove', function(e) {
-    if (isDragging || isResizing) {
-        const newX = e.clientX - offsetX;
-        const newY = e.clientY - offsetY;
-
+    document.addEventListener('mousemove', function(e) {
         if (isDragging) {
-            popup.style.left = newX + "px";
-            popup.style.top = newY + "px";
+            const newX = e.clientX - offsetX;
+            const newY = e.clientY - offsetY;
+            element.style.left = newX + 'px';
+            element.style.top = newY + 'px';
         } else if (isResizing) {
             const newWidth = startWidth + (e.clientX - startX);
             const newHeight = startHeight + (e.clientY - startY);
-
             if (newWidth > 250) {
-                popup.style.width = newWidth + "px";
+                element.style.width = newWidth + 'px';
             }
             if (newHeight > 300) {
-                popup.style.height = newHeight + "px";
+                element.style.height = newHeight + 'px';
             }
         }
-    }
-});
+    });
+
+    document.addEventListener('mouseup', function() {
+        isDragging = false;
+        isResizing = false;
+    });
+}
+
+makeDraggable(popup);
+makeDraggable(sources_window);
 
 function respond() {
     const question = textbox.value;

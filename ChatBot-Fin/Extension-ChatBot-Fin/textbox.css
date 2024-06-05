@@ -103,14 +103,25 @@
     margin: 5px 0;
 }
 
-.clear-button {
+.clear-button,
+.sources-button {
     background-color: red;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
     color: white;
     cursor: pointer;
-    align-self: flex-end;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+
+.sources-button {
+    background-color: green;
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
     margin-top: 10px;
 }
 
@@ -123,4 +134,58 @@
 .minimized #inputContainer,
 .minimized #buttonContainer {
     display: none;
+}
+
+#sources_window {
+    text-align: left;
+    position: absolute;
+    width: 300px;
+    height: 500px;
+    top: 10%;
+    left: 50%;
+    background-color: #444;
+    border-radius: 15px;
+    box-shadow: 5px 0px 10px black;
+    overflow-y: auto;
+    z-index: 10001;
+    color: white;
+    padding: 20px;
+    resize: both;
+}
+
+#sources_window_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#sources_window_header h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#sources_window_header .icon {
+    cursor: pointer;
+    font-size: 1.5em;
+    margin-left: 10px;
+}
+
+#sources_window ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#sources_window ul li {
+    margin: 10px 0;
+}
+
+#sources_window ul li a {
+    color: #87CEEB;
+    text-decoration: none;
+}
+
+#sources_window ul li a:hover {
+    text-decoration: underline;
 }
