@@ -15,7 +15,6 @@
     flex-direction: column;
     padding: 20px;
     resize: both;
-    overflow: auto;
     min-width: 250px; /* Set minimum width */
     min-height: 300px; /* Set minimum height */
 }
@@ -102,6 +101,17 @@
     text-align: left;
     display: block;
     margin: 5px 0;
+}
+
+.clear-button {
+    background-color: red;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 10px;
 }
 
 .minimized {

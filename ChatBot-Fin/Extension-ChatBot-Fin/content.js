@@ -24,7 +24,9 @@ function clear() {
     const sourceurls = document.getElementById('source_urls');
 
     response.innerHTML = "";
-    sourceurls.innerHTML = "";
+    if (sourceurls) {
+        sourceurls.innerHTML = "";
+    }
     fetch(`http://127.0.0.1:8000/clear_messages/`, { method: "POST" })
         .then(response => {
             if (!response.ok) {
@@ -212,6 +214,11 @@ textbox.placeholder = "Ask me something!";
 
 inputContainer.appendChild(textbox);
 
+const clearButton = document.createElement('button');
+clearButton.innerText = "Clear";
+clearButton.className = "clear-button";
+clearButton.onclick = clear;
+
 const responseContainer = document.createElement('div');
 responseContainer.id = "respons";
 content.appendChild(responseContainer);
@@ -232,6 +239,7 @@ buttonContainer.appendChild(advAskButton);
 
 popup.appendChild(header);
 popup.appendChild(content);
+popup.appendChild(clearButton); // Add clear button before inputContainer
 popup.appendChild(inputContainer);
 popup.appendChild(buttonContainer);
 
