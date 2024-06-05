@@ -248,12 +248,25 @@ sitebody.appendChild(popup);
 
 popup = document.getElementById("draggableElement");
 let isDragging = false;
-let offsetX, offsetY;
+let isResizing = false;
+let offsetX, offsetY, startX, startY, startWidth, startHeight;
 
 function onMouseDown(event) {
-    isDragging = true;
-    offsetX = event.clientX - popup.getBoundingClientRect().left;
-    offsetY = event.clientY - popup.getBoundingClientRect().top;
+    const rect = popup.getBoundingClientRect();
+    const isRightEdge = event.clientX > rect.right - 10;
+    const isBottomEdge = event.clientY > rect.bottom - 10;
+
+    if (isRightEdge || isBottomEdge) {
+        isResizing = true;
+        startX = event.clientX;
+        startY = event.clientY;
+        startWidth = rect.width;
+        startHeight = rect.height;
+    } else {
+        isDragging = true;
+        offsetX = event.clientX - rect.left;
+        offsetY = event.clientY - rect.top;
+    }
 }
 
 function onMouseMove(event) {
@@ -263,11 +276,22 @@ function onMouseMove(event) {
 
         popup.style.left = newX + "px";
         popup.style.top = newY + "px";
+    } else if (isResizing) {
+        const newWidth = startWidth + (event.clientX - startX);
+        const newHeight = startHeight + (event.clientY - startY);
+
+        if (newWidth > 250) {
+            popup.style.width = newWidth + "px";
+        }
+        if (newHeight > 300) {
+            popup.style.height = newHeight + "px";
+        }
     }
 }
 
 function onMouseUp() {
     isDragging = false;
+    isResizing = false;
 }
 
 popup.addEventListener("mousedown", onMouseDown);
@@ -275,12 +299,24 @@ document.addEventListener("mousemove", onMouseMove);
 document.addEventListener("mouseup", onMouseUp);
 
 document.addEventListener('mousemove', function(e) {
-    if (isDragging) {
+    if (isDragging || isResizing) {
         const newX = e.clientX - offsetX;
         const newY = e.clientY - offsetY;
 
-        popup.style.left = newX + "px";
-        popup.style.top = newY + "px";
+        if (isDragging) {
+            popup.style.left = newX + "px";
+            popup.style.top = newY + "px";
+        } else if (isResizing) {
+            const newWidth = startWidth + (e.clientX - startX);
+            const newHeight = startHeight + (e.clientY - startY);
+
+            if (newWidth > 250) {
+                popup.style.width = newWidth + "px";
+            }
+            if (newHeight > 300) {
+                popup.style.height = newHeight + "px";
+            }
+        }
     }
 });
 
