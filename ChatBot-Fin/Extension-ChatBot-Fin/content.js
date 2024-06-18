@@ -277,18 +277,27 @@ const settings_window = document.createElement('div');
 settings_window.id = "settings_window";
 
 const settingsLabel = document.createElement('label');
-settingsLabel.innerText = "Dark Mode";
+settingsLabel.innerText = "Light Mode";
 
-const darkModeSwitch = document.createElement('input');
-darkModeSwitch.type = "checkbox";
-darkModeSwitch.onchange = function() {
-    document.body.classList.toggle('dark-mode');
+const lightModeSwitch = document.createElement('input');
+lightModeSwitch.type = "checkbox";
+lightModeSwitch.onchange = function() {
+    document.body.classList.toggle('light-mode');
 };
 
-settingsLabel.appendChild(darkModeSwitch);
+settingsLabel.appendChild(lightModeSwitch);
 settings_window.appendChild(settingsLabel);
 
 sitebody.appendChild(settings_window);
+
+// Close settings popup when clicks outside
+document.addEventListener('click', function(event) {
+    const settingsWindow = document.getElementById('settings_window');
+    if (settingsWindow.style.display === 'block' && !settingsWindow.contains(event.target) && !settingsIcon.contains(event.target)) {
+        settingsWindow.style.display = 'none';
+    }
+});
+
 
 sitebody.appendChild(sources_window);
 sitebody.appendChild(popup);

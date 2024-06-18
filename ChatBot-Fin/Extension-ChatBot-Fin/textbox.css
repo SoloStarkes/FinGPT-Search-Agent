@@ -24,6 +24,9 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    background-color: #333; /* Ensure it matches the default background */
+    border-radius: 15px 15px 0 0; /* Match the border radius of the top */
+    padding: 10px;
 }
 
 #header span {
@@ -198,7 +201,7 @@
     height: 50px;
     background-color: #444;
     border-radius: 10px;
-    box-shadow: 0 0 10px black;
+    box-shadow: 0px 0px 10px black;
     z-index: 10002;
     color: white;
     padding: 10px;
@@ -216,3 +219,29 @@
     width: 40px;
     height: 20px;
 }
+
+/* Light mode styles */
+.light-mode #draggableElement,
+.light-mode #sources_window {
+    background-color: #ddd;
+    color: black;
+}
+
+.light-mode #inputContainer {
+    background-color: #eee;
+}
+
+.light-mode #header,
+.light-mode #sources_window_header {
+    background-color: #ddd;
+}
+
+.light-mode #buttonContainer button {
+    color: white; /* Button text remains white */
+}
+
+.light-mode .clear-button,
+.light-mode .sources-button {
+    color: white; /* Button text remains white */
+}
+
