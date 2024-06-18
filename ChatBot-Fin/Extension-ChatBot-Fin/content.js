@@ -153,6 +153,10 @@ iconContainer.id = "icon-container";
 const settingsIcon = document.createElement('span');
 settingsIcon.innerText = "⚙️";
 settingsIcon.className = "icon";
+settingsIcon.onclick = function() {
+    const settingsWindow = document.getElementById('settings_window');
+    settingsWindow.style.display = settingsWindow.style.display === 'none' ? 'block' : 'none';
+};
 
 const minimizeIcon = document.createElement('span');
 minimizeIcon.innerText = "➖";
@@ -261,6 +265,22 @@ source_urls.id = "source_urls";
 sources_window.appendChild(sourcesHeader);
 sources_window.appendChild(source_urls);
 
+const settings_window = document.createElement('div');
+settings_window.id = "settings_window";
+
+const settingsLabel = document.createElement('label');
+settingsLabel.innerText = "Dark Mode";
+
+const darkModeSwitch = document.createElement('input');
+darkModeSwitch.type = "checkbox";
+darkModeSwitch.onchange = function() {
+    document.body.classList.toggle('dark-mode');
+};
+
+settingsLabel.appendChild(darkModeSwitch);
+settings_window.appendChild(settingsLabel);
+
+sitebody.appendChild(settings_window);
 sitebody.appendChild(sources_window);
 sitebody.appendChild(popup);
 

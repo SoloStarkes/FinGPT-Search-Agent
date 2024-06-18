@@ -384,4 +384,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Intellj Idea Work Folder
+.idea/
+
 # End of https://www.toptal.com/developers/gitignore/api/python,osx,visualstudiocode,node,windows

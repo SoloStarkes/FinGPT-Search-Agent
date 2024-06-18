@@ -189,3 +189,28 @@
 #sources_window ul li a:hover {
     text-decoration: underline;
 }
+
+#settings_window {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    background-color: #444;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px black;
+    z-index: 10002;
+    color: white;
+    padding: 10px;
+    display: none;
+}
+
+#settings_window label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#settings_window input[type="checkbox"] {
+    width: 40px;
+    height: 20px;
+}

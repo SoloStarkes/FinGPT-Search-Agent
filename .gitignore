@@ -6,3 +6,6 @@ chat_interface/backend_modules/.env
 .idea/vcs.xml
 .idea/vcs.xml
 .idea/discord.xml
+.idea/misc.xml
+.idea/modules.xml
+FinGPT_Demo.iml
