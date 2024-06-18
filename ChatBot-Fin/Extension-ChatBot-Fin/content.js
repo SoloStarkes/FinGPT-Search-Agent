@@ -155,8 +155,12 @@ settingsIcon.innerText = "⚙️";
 settingsIcon.className = "icon";
 settingsIcon.onclick = function() {
     const settingsWindow = document.getElementById('settings_window');
+    const rect = settingsIcon.getBoundingClientRect();
+    settingsWindow.style.top = `${rect.bottom}px`;
+    settingsWindow.style.left = `${rect.left}px`;
     settingsWindow.style.display = settingsWindow.style.display === 'none' ? 'block' : 'none';
 };
+
 
 const minimizeIcon = document.createElement('span');
 minimizeIcon.innerText = "➖";
@@ -241,6 +245,8 @@ popup.appendChild(buttonRow); // Add button row here
 popup.appendChild(inputContainer);
 popup.appendChild(buttonContainer);
 
+
+// Sources Window
 const sources_window = document.createElement('div');
 sources_window.id = "sources_window";
 sources_window.style.display = 'none';
@@ -265,6 +271,8 @@ source_urls.id = "source_urls";
 sources_window.appendChild(sourcesHeader);
 sources_window.appendChild(source_urls);
 
+
+// Settings Windows
 const settings_window = document.createElement('div');
 settings_window.id = "settings_window";
 
@@ -281,6 +289,7 @@ settingsLabel.appendChild(darkModeSwitch);
 settings_window.appendChild(settingsLabel);
 
 sitebody.appendChild(settings_window);
+
 sitebody.appendChild(sources_window);
 sitebody.appendChild(popup);
 

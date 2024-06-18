@@ -194,9 +194,11 @@
     position: absolute;
     top: 50px;
     right: 20px;
+    width: 150px;
+    height: 50px;
     background-color: #444;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px black;
+    box-shadow: 0 0 10px black;
     z-index: 10002;
     color: white;
     padding: 10px;
