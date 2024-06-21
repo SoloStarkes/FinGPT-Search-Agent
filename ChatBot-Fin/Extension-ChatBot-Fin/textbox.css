@@ -1,3 +1,4 @@
+/* Popup Container */
 #draggableElement {
     text-align: center;
     position: absolute;
@@ -15,17 +16,18 @@
     flex-direction: column;
     padding: 20px;
     resize: both;
-    min-width: 250px; /* Set minimum width */
-    min-height: 300px; /* Set minimum height */
+    min-width: 250px;
+    min-height: 300px;
 }
 
+/* Header */
 #header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    background-color: #333; /* Ensure it matches the default background */
-    border-radius: 15px 15px 0 0; /* Match the border radius of the top */
+    background-color: #333; /* matches the default background */
+    border-radius: 15px 15px 0 0; /* Matches the border radius of the top */
     padding: 10px;
 }
 
@@ -39,11 +41,13 @@
     margin-left: 10px;
 }
 
+/* Icon Container */
 #icon-container {
     display: flex;
     align-items: center;
 }
 
+/* Content Area */
 #content {
     flex: 1;
     display: flex;
@@ -63,6 +67,7 @@
     font-size: 1em;
 }
 
+/* Input Container */
 #inputContainer {
     display: flex;
     align-items: center;
@@ -84,6 +89,7 @@
     outline: none;
 }
 
+/* Button Container */
 #buttonContainer {
     display: flex;
     justify-content: center;
@@ -100,12 +106,14 @@
     margin: 0 5px;
 }
 
+/* Response Area */
 #respons span {
     text-align: left;
     display: block;
     margin: 5px 0;
 }
 
+/* Clear and Sources Buttons */
 .clear-button,
 .sources-button {
     background-color: red;
@@ -122,12 +130,14 @@
     background-color: green;
 }
 
+/* Button Row */
 .button-row {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
 }
 
+/* Minimized State */
 .minimized {
     height: 60px;
     overflow: hidden;
@@ -139,6 +149,7 @@
     display: none;
 }
 
+/* Sources Window */
 #sources_window {
     text-align: left;
     position: absolute;
@@ -193,6 +204,7 @@
     text-decoration: underline;
 }
 
+/* Settings Window */
 #settings_window {
     position: absolute;
     top: 50px;
@@ -220,7 +232,7 @@
     height: 20px;
 }
 
-/* Light mode styles */
+/* Light Mode Styles */
 .light-mode #draggableElement,
 .light-mode #sources_window {
     background-color: #ddd;
@@ -244,4 +256,3 @@
 .light-mode .sources-button {
     color: white; /* Button text remains white */
 }
-
