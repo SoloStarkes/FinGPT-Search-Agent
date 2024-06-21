@@ -168,8 +168,10 @@ minimizeIcon.className = "icon";
 minimizeIcon.onclick = function() {
     if (popup.classList.contains('minimized')) {
         popup.classList.remove('minimized');
+        popup.style.height = '600px';
     } else {
         popup.classList.add('minimized');
+        popup.style.height = '60px';
     }
 };
 
@@ -302,9 +304,7 @@ document.addEventListener('click', function(event) {
 sitebody.appendChild(sources_window);
 sitebody.appendChild(popup);
 
-popup = document.getElementById("draggableElement");
-
-function makeDraggable(element) {
+function makeDraggableAndResizable(element) {
     let isDragging = false;
     let isResizing = false;
     let offsetX, offsetY, startX, startY, startWidth, startHeight;
@@ -331,16 +331,16 @@ function makeDraggable(element) {
         if (isDragging) {
             const newX = e.clientX - offsetX;
             const newY = e.clientY - offsetY;
-            element.style.left = newX + 'px';
-            element.style.top = newY + 'px';
+            element.style.left = `${newX}px`;
+            element.style.top = `${newY}px`;
         } else if (isResizing) {
             const newWidth = startWidth + (e.clientX - startX);
             const newHeight = startHeight + (e.clientY - startY);
             if (newWidth > 250) {
-                element.style.width = newWidth + 'px';
+                element.style.width = `${newWidth}px`;
             }
             if (newHeight > 300) {
-                element.style.height = newHeight + 'px';
+                element.style.height = `${newHeight}px`;
             }
         }
     });
@@ -351,8 +351,11 @@ function makeDraggable(element) {
     });
 }
 
-makeDraggable(popup);
-makeDraggable(sources_window);
+
+// Initialize draggable and resizable elements
+popup = document.getElementById("draggableElement");
+makeDraggableAndResizable(popup);
+makeDraggableAndResizable(sources_window);
 
 function respond() {
     const question = textbox.value;

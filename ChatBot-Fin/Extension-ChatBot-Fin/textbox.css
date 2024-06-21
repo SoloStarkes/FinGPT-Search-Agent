@@ -16,8 +16,8 @@
     flex-direction: column;
     padding: 20px;
     resize: both;
-    min-width: 250px;
-    min-height: 300px;
+    min-width: 250px; /* Set minimum width */
+    min-height: 80px; /* Set minimum height */
 }
 
 /* Header */
@@ -26,8 +26,8 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    background-color: #333; /* matches the default background */
-    border-radius: 15px 15px 0 0; /* Matches the border radius of the top */
+    background-color: #333; /* Ensure it matches the default background */
+    border-radius: 15px 15px 0 0; /* Match the border radius of the top */
     padding: 10px;
 }
 
@@ -145,7 +145,9 @@
 
 .minimized #content,
 .minimized #inputContainer,
-.minimized #buttonContainer {
+.minimized #buttonContainer,
+.minimized .clear-button,
+.minimized .sources-button {
     display: none;
 }
 
